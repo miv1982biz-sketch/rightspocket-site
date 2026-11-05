@@ -54,6 +54,10 @@
   .price small { font-size:14px; color:var(--muted); font-weight:500; }
   .plan ul { margin:14px 0 0; padding-left:18px; font-size:14.5px; }
   .plan li { margin:6px 0; }
+  table.scope { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:14.5px; }
+  table.scope th, table.scope td { padding:11px 14px; border-top:1px solid var(--line); text-align:left; }
+  table.scope thead th { border-top:0; background:#eef3fb; font-size:13px; letter-spacing:.03em; text-transform:uppercase; color:var(--muted); }
+  table.scope td.c, table.scope th.c { text-align:center; width:110px; }
   details { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 18px; margin-top:10px; }
   summary { font-weight:600; cursor:pointer; }
   details p { margin:10px 0 2px; font-size:14.5px; color:var(--muted); }
@@ -69,7 +73,7 @@
     <!-- Angle A (money) — default -->
     <h1 id="headlineA">Your stuff came with money-back rights you&rsquo;ve never used.</h1>
     <!-- Angle B (safety) — shown when ?v=safety -->
-    <h1 id="headlineB" style="display:none">A recalled product could be sitting in your home right now.</h1>
+    <h1 id="headlineB" style="display:none">Most recalled products are never returned — their owners simply never hear about them.</h1>
     <p class="lede" id="ledeA">Almost everything you own carries a warranty, recall rights, or purchase protection from the credit card you paid with. Most of it expires unused — because nobody tracks the deadlines or does the paperwork. RightsPocket does both.</p>
     <p class="lede" id="ledeB" style="display:none">About half of recalled cars are never repaired, and most recalled household products are never returned — usually because the owner never heard. RightsPocket watches everything you own against official recall databases, so you hear about it the week it happens, not never.</p>
 
@@ -87,6 +91,7 @@
     </form>
     <div class="done" id="doneBox"><b>You&rsquo;re on the list.</b> We&rsquo;ll email you when early access opens — and your founding-member price (<span class="proPriceLabel">$59</span>/year) is locked in.</div>
     <p class="fine">Free while in early access. No card required. One email at launch, no spam.</p>
+    <p class="fine"><b>What&rsquo;s free / what&rsquo;s paid, up front:</b> recall checks, recall alerts and warranty tracking are free forever. The paid Pro plan adds one thing: preparation of claim paperwork. Where an official free check exists, we link you straight to it.</p>
   </div>
 
   <div class="stats">
@@ -94,6 +99,23 @@
     <div class="stat"><b>2–15%</b><span>typical response rate to consumer-product recalls. The rest never claim their free fix or refund.</span></div>
     <div class="stat"><b>~70%</b><span>of cardholders don&rsquo;t know their card includes purchase protection and extended warranty — benefits issuers already pay out tens of millions on each year.</span></div>
   </div>
+
+  <section>
+    <h2>Free vs. paid — the whole picture, before you sign up</h2>
+    <table class="scope">
+      <thead><tr><th>Feature</th><th class="c">Free</th><th class="c">Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Recall checker (this site&rsquo;s tool, official CPSC data)</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+        <tr><td>Recall alerts for products you own</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+        <tr><td>Product registry &amp; warranty expiration tracking</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+        <tr><td>Claim packets for card purchase protection &amp; extended warranty</td><td class="c">&mdash;</td><td class="c">&#10003;</td></tr>
+        <tr><td>Coverage check across all your cards, in claim order</td><td class="c">&mdash;</td><td class="c">&#10003;</td></tr>
+        <tr><td>Annual coverage report</td><td class="c">&mdash;</td><td class="c">&#10003;</td></tr>
+        <tr><td>Export or delete your data — anytime, even after cancelling</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+      </tbody>
+    </table>
+    <p class="fine">That&rsquo;s the entire boundary. Nothing outside this table is charged, and safety information is never behind the paywall.</p>
+  </section>
 
   <section>
     <h2>What RightsPocket watches for you</h2>
@@ -172,7 +194,7 @@
     </details>
     <details>
       <summary>What do you store about me?</summary>
-      <p>Only your product list and the details needed to prepare claims. No bank logins, no card numbers — you tell us which card you used, never its number. Delete your data at any time.</p>
+      <p>Only your product list and the details needed to prepare claims. No bank logins, no card numbers — you tell us which card you used, never its number. Your list is yours: export it in full at any time, whether or not you ever pay, and it stays exportable if you cancel. Delete everything whenever you like.</p>
     </details>
   </section>
 
