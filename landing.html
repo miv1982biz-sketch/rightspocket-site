@@ -10,9 +10,12 @@
   - Hero variant: ?v=money (default, angle A) | ?v=safety (angle B)
   - Price variant: ?price=49 | 59 (default) | 79  -> sets Pro price + hidden form fields
   - UTM params (utm_source/medium/campaign) are captured into hidden fields automatically.
-  - FORM ENDPOINT: FormSubmit -> the operator's business inbox. The FIRST real submission
-    triggers a one-time activation email that the operator must click before submissions
-    are delivered. After submit, FormSubmit redirects to ?joined=1 which shows the done box.
+  - FORM ENDPOINT: Google Forms (business account) formResponse, submitted via fetch
+    (no-cors) by the script at the bottom; the form tag's action + entry.* input names
+    are the no-JS fallback (native submit lands on Google's confirmation page).
+    Switched from FormSubmit on 2026-11-06 after 3x Error 522 outages on 2026-11-05.
+    After submit, the script redirects to ?joined=1 which shows the done box.
+    To change the backend again, replace FORM_ENDPOINT and the entry.* names in one place each.
   - Brand name "RightsPocket" DECIDED 2026-11-05 (chosen by Muse at the user's request, on global-acceptability grounds). Domain rightspocket.com pending registration.
 -->
 <style>
@@ -84,17 +87,14 @@
     <p class="lede" id="ledeA">Almost everything you own carries a warranty, recall rights, or purchase protection from the credit card you paid with. Most of it expires unused — because nobody tracks the deadlines or does the paperwork. RightsPocket does both.</p>
     <p class="lede" id="ledeB" style="display:none">About half of recalled cars are never repaired, and most recalled household products are never returned — usually because the owner never heard. RightsPocket watches everything you own against official recall databases, so you hear about it the week it happens, not never.</p>
 
-    <form class="lead" id="leadForm" method="post" action="https://formsubmit.co/miv1982.biz@gmail.com">
-      <input type="email" name="email" id="email" placeholder="you@example.com" required aria-label="Email address">
+    <form class="lead" id="leadForm" method="post" action="https://docs.google.com/forms/d/e/1FAIpQLSfIlwYD3v3Y9KRUBzka0VQzkPMfSRa4R4TzxRtUUD6P5-RRYw/formResponse">
+      <input type="email" name="entry.1419395939" id="email" placeholder="you@example.com" required aria-label="Email address">
       <button type="submit">Join the early list</button>
-      <input type="hidden" name="variant" id="fVariant" value="money">
-      <input type="hidden" name="price_variant" id="fPrice" value="59">
-      <input type="hidden" name="utm_source" id="fUtmSource" value="">
-      <input type="hidden" name="utm_medium" id="fUtmMedium" value="">
-      <input type="hidden" name="utm_campaign" id="fUtmCampaign" value="">
-      <input type="hidden" name="_subject" value="RightsPocket early-list signup">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_next" value="https://rightspocket.globe-ent.com/landing.html?joined=1">
+      <input type="hidden" name="entry.207806881" id="fVariant" value="money">
+      <input type="hidden" name="entry.1936605984" id="fPrice" value="59">
+      <input type="hidden" name="entry.883978392" id="fUtmSource" value="">
+      <input type="hidden" name="entry.1224998120" id="fUtmMedium" value="">
+      <input type="hidden" name="entry.304831880" id="fUtmCampaign" value="">
     </form>
     <div class="done" id="doneBox"><b>You&rsquo;re on the list.</b> We&rsquo;ll email you when early access opens — and your founding-member price (<span class="proPriceLabel">$59</span>/year) is locked in.</div>
     <p class="fine">Free while in early access. No card required. One email at launch, no spam.</p>
@@ -232,7 +232,20 @@
     if(el) el.value = v;
   });
 
-  // After a real submit, FormSubmit redirects back with ?joined=1 -> show the done state.
+  // Submit to Google Forms via fetch (no-cors), then show the done state at ?joined=1.
+  var FORM_ENDPOINT = 'https://docs.google.com/forms/d/e/1FAIpQLSfIlwYD3v3Y9KRUBzka0VQzkPMfSRa4R4TzxRtUUD6P5-RRYw/formResponse';
+  var leadForm = document.getElementById('leadForm');
+  leadForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var btn = leadForm.querySelector('button');
+    if(btn){ btn.disabled = true; btn.textContent = 'Joining\u2026'; }
+    var body = new URLSearchParams(new FormData(leadForm)).toString();
+    fetch(FORM_ENDPOINT, { method:'POST', mode:'no-cors', headers:{ 'Content-Type':'application/x-www-form-urlencoded' }, body: body })
+      .then(finish, finish);
+    function finish(){ location.search = '?joined=1'; }
+  });
+
+  // After a real submit, the script redirects back with ?joined=1 -> show the done state.
   if(params.get('joined') === '1'){
     document.getElementById('leadForm').style.display = 'none';
     document.querySelector('.fine').style.display = 'none';
