@@ -113,3 +113,12 @@ footer p { margin:6px 0; }
 .page-404 h1 { font-size:1.8rem; margin-bottom:12px; }
 .page-404 p { color:var(--muted); }
 .page-404 a.btn { display:inline-block; margin-top:20px; padding:12px 22px; background:var(--accent); color:#fff; border-radius:10px; text-decoration:none; font-weight:600; }
+
+/* Design review fixes (2026-11-10) */
+/* Guide: the brandline link must stay ink like other pages (the guide's content-link rule was overriding it). */
+.page-guide .brandline a { color:inherit; }
+/* Landing scope table on small screens: tighter cells so feature text wraps less. */
+@media (max-width:640px){
+  .page-landing table.scope th, .page-landing table.scope td { padding:8px 10px; }
+  .page-landing table.scope { font-size:14px; }
+}

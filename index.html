@@ -125,7 +125,7 @@
         (prodNames ? '<div class="field"><b>Product</b><p>' + esc(prodNames) + '</p></div>' : '') +
         (hazard ? '<div class="field"><b>Risk</b><p>' + esc(hazard) + '</p></div>' : '') +
         (remedy ? '<div class="field"><b>What you can get</b><p>' + esc(remedy) + (options ? ' (' + esc(options) + ')' : '') + '</p></div>' : '') +
-        '<div><a class="official" href="' + esc(r.URL||'#') + '" target="_blank" rel="noopener">Confirm your model on the official CPSC notice &rarr;</a></div>';
+        '<div><a class="official" href="' + esc(r.URL||'#') + '" target="_blank" rel="noopener">Confirm your model on the official CPSC notice</a></div>';
       resultsEl.appendChild(div);
     });
   }
