@@ -1,0 +1,115 @@
+/* RightsPocket — shared stylesheet (single source for all public pages)
+   Tokens and parts are documented in ../SITE-DESIGN-RULES.md.
+   Page-specific rules are scoped under body.page-* classes. */
+
+/* ---- Tokens ---- */
+:root {
+  --ink:#1a2332; --muted:#5b6b82; --line:#e3e8f0; --accent:#0b5fff;
+  --warn:#b42318; --warnbg:#fef3f2; --ok:#027a48; --okbg:#ecfdf3; --card:#fff;
+  --pagebg:#f7f9fc;
+}
+
+/* ---- Base ---- */
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--pagebg); line-height:1.7; }
+.wrap { max-width:760px; margin:0 auto; padding:24px 16px 64px; }
+header { padding:28px 0 8px; }
+footer { margin-top:36px; font-size:14px; color:var(--muted); }
+footer p { margin:6px 0; }
+
+/* ---- Shared parts ---- */
+.brandline { font-weight:800; font-size:19px; letter-spacing:-.01em; margin-bottom:18px; }
+.brandline span { color:var(--accent); }
+.brandline a { color:inherit; text-decoration:none; }
+.sub { color:var(--muted); font-size:16px; margin:0 0 22px; }
+
+/* ---- Checker (page-checker) ---- */
+.page-checker h1 { font-size:30px; line-height:1.2; margin:0 0 10px; }
+.page-checker form.search { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; display:grid; gap:12px; }
+.page-checker label { font-size:14px; font-weight:600; color:var(--muted); display:block; margin-bottom:6px; }
+.page-checker input[type=text] { width:100%; padding:12px 14px; font-size:16px; border:1px solid var(--line); border-radius:10px; }
+.page-checker input[type=text]:focus { outline:2px solid var(--accent); border-color:transparent; }
+.page-checker button { background:var(--accent); color:#fff; border:0; border-radius:10px; padding:13px 18px; font-size:16px; font-weight:600; cursor:pointer; }
+.page-checker button:disabled { opacity:.55; cursor:wait; }
+.page-checker .privacy { font-size:14px; color:var(--muted); margin:12px 2px 0; }
+.page-checker .status { margin:22px 2px 0; font-size:15px; }
+.page-checker .result { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-top:14px; display:grid; gap:10px; }
+.page-checker .result.hit-high { border-color:#f3c6c0; background:var(--warnbg); }
+.page-checker .result.hit-mid { border-color:#f5dfae; background:#fffcf3; }
+.page-checker .result h3 { margin:0; font-size:17px; line-height:1.35; }
+.page-checker .meta { font-size:14px; color:var(--muted); }
+.page-checker .badge { display:inline-block; font-size:14px; font-weight:700; padding:3px 10px; border-radius:999px; margin-right:8px; vertical-align:2px; }
+.page-checker .badge.high { background:var(--warn); color:#fff; }
+.page-checker .badge.mid { background:#b45309; color:#fff; }
+.page-checker .result img { max-width:180px; border-radius:8px; border:1px solid var(--line); }
+.page-checker .field b { display:block; font-size:14px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
+.page-checker .field p { margin:0; font-size:15px; }
+.page-checker a.official { font-weight:600; }
+.page-checker .clear { background:var(--okbg); border:1px solid #a6e9c5; border-radius:14px; padding:16px 18px; margin-top:22px; }
+.page-checker .clear b { color:var(--ok); }
+.page-checker .cta { background:var(--ink); color:#fff; border-radius:14px; padding:22px; margin-top:30px; }
+.page-checker .cta h2 { margin:0 0 8px; font-size:20px; }
+.page-checker .cta p { margin:0 0 14px; color:#cdd7e5; font-size:15px; }
+.page-checker .cta a { display:inline-block; background:#fff; color:var(--ink); font-weight:700; text-decoration:none; padding:11px 18px; border-radius:10px; }
+
+/* ---- Landing (page-landing) ---- */
+.page-landing .wrap { max-width:860px; padding-bottom:72px; }
+.page-landing .brand { font-weight:800; font-size:19px; letter-spacing:-.01em; padding:10px 0 0; }
+.page-landing .brand span { color:var(--accent); }
+.page-landing .hero { padding:34px 0 10px; }
+.page-landing h1 { font-size:36px; line-height:1.18; margin:0 0 14px; letter-spacing:-.015em; }
+.page-landing .lede { font-size:18px; color:var(--muted); margin:0 0 24px; max-width:640px; }
+.page-landing form.lead { display:flex; gap:10px; flex-wrap:wrap; max-width:560px; }
+.page-landing form.lead input[type=email] { flex:1 1 260px; padding:13px 14px; font-size:16px; border:1px solid var(--line); border-radius:10px; }
+.page-landing form.lead button { background:var(--accent); color:#fff; border:0; border-radius:10px; padding:13px 20px; font-size:16px; font-weight:600; cursor:pointer; }
+.page-landing .fine { font-size:14px; color:var(--muted); margin-top:10px; }
+.page-landing .done { background:var(--okbg); border:1px solid #a6e9c5; border-radius:14px; padding:14px 16px; max-width:560px; display:none; }
+.page-landing .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:36px 0 6px; }
+.page-landing .stat { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; }
+.page-landing .stat b { display:block; font-size:24px; letter-spacing:-.01em; }
+.page-landing .stat span { font-size:14px; color:var(--muted); }
+.page-landing section { margin-top:44px; }
+.page-landing h2 { font-size:24px; margin:0 0 14px; letter-spacing:-.01em; }
+.page-landing .cols { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.page-landing .col { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; }
+.page-landing .col h3 { margin:0 0 8px; font-size:16.5px; }
+.page-landing .col p { margin:0; font-size:14.5px; color:var(--muted); }
+.page-landing .steps { counter-reset:step; display:grid; gap:10px; }
+.page-landing .step { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; display:flex; gap:14px; }
+.page-landing .step .n { counter-increment:step; background:var(--ink); color:#fff; width:28px; height:28px; min-width:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; margin-top:2px; }
+.page-landing .step p { margin:0; font-size:15px; }
+.page-landing .step b { display:block; }
+.page-landing .honest { background:#fff8e6; border:1px solid #f0dfa8; border-radius:14px; padding:18px; font-size:15px; }
+.page-landing .plans { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.page-landing .plan { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px; }
+.page-landing .plan.pro { border-color:var(--accent); border-width:2px; }
+.page-landing .plan h3 { margin:0 0 4px; font-size:18px; }
+.page-landing .price { font-size:32px; font-weight:800; letter-spacing:-.02em; }
+.page-landing .price small { font-size:14px; color:var(--muted); font-weight:500; }
+.page-landing .plan ul { margin:14px 0 0; padding-left:18px; font-size:14.5px; }
+.page-landing .plan li { margin:6px 0; }
+.page-landing table.scope { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; font-size:14.5px; }
+.page-landing table.scope th, .page-landing table.scope td { padding:11px 14px; border-top:1px solid var(--line); text-align:left; }
+.page-landing table.scope thead th { border-top:0; background:#eef3fb; font-size:14px; letter-spacing:.03em; text-transform:uppercase; color:var(--muted); }
+.page-landing table.scope td.c, .page-landing table.scope th.c { text-align:center; width:110px; }
+.page-landing details { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 18px; margin-top:10px; }
+.page-landing summary { font-weight:600; cursor:pointer; }
+.page-landing details p { margin:10px 0 2px; font-size:14.5px; color:var(--muted); }
+.page-landing footer { margin-top:48px; }
+@media (max-width:640px){ .page-landing .stats,.page-landing .cols,.page-landing .plans{grid-template-columns:1fr;} .page-landing h1{font-size:29px;} }
+
+/* ---- Guide article (page-guide) ---- */
+.page-guide h1 { font-size:30px; line-height:1.25; margin:0 0 10px; }
+.page-guide h2 { font-size:20px; margin:32px 0 8px; }
+.page-guide p, .page-guide li { font-size:16px; }
+.page-guide ol, .page-guide ul { padding-left:22px; }
+.page-guide li { margin-bottom:6px; }
+.page-guide .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-top:22px; }
+.page-guide .card h2 { margin-top:0; }
+.page-guide a { color:var(--accent); }
+
+/* ---- 404 (page-404) ---- */
+.page-404 .wrap { max-width:640px; padding:64px 20px; text-align:center; }
+.page-404 h1 { font-size:1.8rem; margin-bottom:12px; }
+.page-404 p { color:var(--muted); }
+.page-404 a.btn { display:inline-block; margin-top:20px; padding:12px 22px; background:var(--accent); color:#fff; border-radius:10px; text-decoration:none; font-weight:600; }
