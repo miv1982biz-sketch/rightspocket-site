@@ -121,4 +121,5 @@ footer p { margin:6px 0; }
 @media (max-width:640px){
   .page-landing table.scope th, .page-landing table.scope td { padding:8px 10px; }
   .page-landing table.scope { font-size:14px; }
+  .page-landing table.scope td.c { width:64px; }
 }
