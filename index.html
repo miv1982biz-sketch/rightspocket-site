@@ -21,7 +21,7 @@
 <body class="page-checker">
 <div class="wrap">
   <header>
-    <div class="brandline">RightsPocket<span>.</span></div>
+    <div class="topbar"><span class="mark">R</span><span class="brandline">RightsPocket<span>.</span></span><span class="freepill">Checker is free</span></div>
     <h1>Is your product recalled?</h1>
     <p class="sub">Enter a brand, product name, or model number. We check it against the official U.S. CPSC recall database — free, no sign-up.</p>
   </header>
@@ -41,6 +41,11 @@
 
   <div class="status" id="status" role="status" aria-live="polite"></div>
   <div id="results"></div>
+
+  <div class="freepaid">
+    <div class="freepaid-t">Free vs. paid — up front</div>
+    <p><b>Checking is always free, and filing a claim with the manufacturer or the CPSC is free too</b> — you never need us to claim a remedy. RightsPocket Pro only saves you the paperwork on warranty and card-benefit claims. Safety information is never paywalled.</p>
+  </div>
 
   <div class="cta">
     <h2>Own more than one product? Almost everyone does.</h2>
@@ -105,27 +110,88 @@
     resultsEl.appendChild(d);
   }
 
+  function unitsText(r){
+    var m = String(r.Description||'').match(/about\s+([\d,.]+)\s*(million|thousand)?\s+units/i) || String(r.Description||'').match(/([\d,]{3,})\s+units/i);
+    if(!m) return '';
+    var num = m[1].replace(/,/g,'');
+    if(m[2] && m[2].toLowerCase()==='million'){ return m[1] + 'M'; }
+    if(m[2] && m[2].toLowerCase()==='thousand'){ return m[1] + 'K'; }
+    var n = parseInt(num, 10);
+    if(!isNaN(n) && n >= 1000000){ return (Math.round(n/100000)/10) + 'M'; }
+    if(!isNaN(n) && n >= 10000){ return (Math.round(n/100)/10) + 'K'; }
+    return m[1];
+  }
+  function hasFreeRemedy(r){
+    var txt = ((r.Remedies||[]).map(function(x){return x.Name||'';}).join(' ') + ' ' +
+      (r.RemedyOptions||[]).map(function(o){return o.Option||'';}).join(' ') + ' ' +
+      String(r.Description||'').slice(0, 600)).toLowerCase();
+    return /\bfree\b/.test(txt);
+  }
+  function fieldsOf(r){
+    return {
+      date: (r.RecallDate||'').slice(0,10),
+      hazard: (r.Hazards && r.Hazards[0] && r.Hazards[0].Name) || '',
+      remedy: (r.Remedies && r.Remedies[0] && r.Remedies[0].Name) || '',
+      options: (r.RemedyOptions||[]).map(function(o){ return o.Option; }).filter(Boolean).join(', '),
+      prodNames: (r.Products||[]).map(function(p){ return p.Name; }).filter(Boolean).join('; ')
+    };
+  }
+
   function render(list){
     resultsEl.innerHTML = '';
-    list.forEach(function(item){
-      var r = item.recall, sc = item.sc;
+    var steps = document.createElement('div');
+    steps.className = 'steps';
+    steps.innerHTML = '<b>1&nbsp;Search</b> &rarr; <b>2&nbsp;Verdict</b> &rarr; 3&nbsp;Your remedy';
+    resultsEl.appendChild(steps);
+
+    var top = list[0], r = top.recall, sc = top.sc, f = fieldsOf(r);
+    var strong = sc.score >= 70;
+    var units = unitsText(r);
+
+    var hero = document.createElement('div');
+    hero.className = 'verdict';
+    hero.innerHTML =
+      '<div class="badges">' +
+        (strong ? '<span class="badge found">● Recall found</span><span class="badge strong">Strong match</span>'
+                : '<span class="badge found mid">● Possible match</span>') +
+        (hasFreeRemedy(r) ? '<span class="badge freer">Free remedy</span>' : '') +
+      '</div>' +
+      (units ? '<div class="bignum">' + esc(units) + '<small>units recalled</small></div>'
+             : '<div class="bignum">' + list.length + '<small>matching recall' + (list.length>1?'s':'') + '</small></div>') +
+      '<div class="vtitle">' + esc(r.Title||'') + '</div>' +
+      (f.hazard ? '<p class="vhazard">' + esc(f.hazard) + '</p>' : '');
+    resultsEl.appendChild(hero);
+
+    var det = document.createElement('div');
+    det.className = 'details';
+    det.innerHTML =
+      (f.prodNames ? '<div class="drow"><div class="dk">Your unit</div><div class="dv">' + esc(f.prodNames) + '<span>Confirm the model and lot details on the official notice — a match here does not prove your unit is affected.</span></div></div>' : '') +
+      (f.remedy ? '<div class="drow"><div class="dk">You can get</div><div class="dv">' + esc(f.remedy) + (f.options ? ' (' + esc(f.options) + ')' : '') + '<span>Official remedy text from the CPSC record, shown as published.</span></div></div>' : '') +
+      '<div class="drow"><div class="dk">Record</div><div class="dv">CPSC recall no. ' + esc(r.RecallNumber||'') + '<span>Announced ' + esc(f.date) + ' · Matched against the official U.S. CPSC database.</span></div></div>';
+    resultsEl.appendChild(det);
+
+    var act = document.createElement('div');
+    act.innerHTML =
+      '<a class="primary" href="' + esc(r.URL||'#') + '" target="_blank" rel="noopener">See the official CPSC notice</a>' +
+      '<a class="secondarybtn" href="#" id="againBtn">Check another product</a>';
+    resultsEl.appendChild(act);
+    document.getElementById('againBtn').addEventListener('click', function(ev){
+      ev.preventDefault();
+      document.getElementById('q').focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    list.slice(1).forEach(function(item){
+      var rr = item.recall, ff = fieldsOf(rr), ss = item.sc;
       var div = document.createElement('div');
-      div.className = 'result ' + (sc.score >= 70 ? 'hit-high' : 'hit-mid');
-      var date = (r.RecallDate||'').slice(0,10);
-      var hazard = (r.Hazards && r.Hazards[0] && r.Hazards[0].Name) || '';
-      var remedy = (r.Remedies && r.Remedies[0] && r.Remedies[0].Name) || '';
-      var options = (r.RemedyOptions||[]).map(function(o){ return o.Option; }).filter(Boolean).join(', ');
-      var img = (r.Images && r.Images[0] && r.Images[0].URL) || '';
-      var prodNames = (r.Products||[]).map(function(p){ return p.Name; }).filter(Boolean).join('; ');
-      var badge = sc.score >= 70 ? '<span class="badge high">Strong match</span>' : '<span class="badge mid">Possible match</span>';
+      div.className = 'result ' + (ss.score >= 70 ? 'hit-high' : 'hit-mid');
       div.innerHTML =
-        '<div>' + badge + '<span class="meta">Recall announced ' + esc(date) + ' &middot; CPSC recall no. ' + esc(r.RecallNumber||'') + '</span></div>' +
-        '<h3>' + esc(r.Title||'') + '</h3>' +
-        (img ? '<img src="' + esc(img) + '" alt="Recalled product photo from CPSC">' : '') +
-        (prodNames ? '<div class="field"><b>Product</b><p>' + esc(prodNames) + '</p></div>' : '') +
-        (hazard ? '<div class="field"><b>Risk</b><p>' + esc(hazard) + '</p></div>' : '') +
-        (remedy ? '<div class="field"><b>What you can get</b><p>' + esc(remedy) + (options ? ' (' + esc(options) + ')' : '') + '</p></div>' : '') +
-        '<div><a class="official" href="' + esc(r.URL||'#') + '" target="_blank" rel="noopener">Confirm your model on the official CPSC notice</a></div>';
+        '<div>' + (ss.score >= 70 ? '<span class="badge high">Strong match</span>' : '<span class="badge mid">Possible match</span>') +
+        '<span class="meta">Recall announced ' + esc(ff.date) + ' &middot; CPSC recall no. ' + esc(rr.RecallNumber||'') + '</span></div>' +
+        '<h3>' + esc(rr.Title||'') + '</h3>' +
+        (ff.hazard ? '<div class="field"><b>Risk</b><p>' + esc(ff.hazard) + '</p></div>' : '') +
+        (ff.remedy ? '<div class="field"><b>What you can get</b><p>' + esc(ff.remedy) + (ff.options ? ' (' + esc(ff.options) + ')' : '') + '</p></div>' : '') +
+        '<div><a class="official" href="' + esc(rr.URL||'#') + '" target="_blank" rel="noopener">Confirm your model on the official CPSC notice</a></div>';
       resultsEl.appendChild(div);
     });
   }

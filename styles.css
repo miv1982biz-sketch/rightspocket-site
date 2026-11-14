@@ -123,3 +123,33 @@ footer p { margin:6px 0; }
   .page-landing table.scope { font-size:14px; }
   .page-landing table.scope td.c, .page-landing table.scope th.c { width:64px; }
 }
+
+/* Checker v2 layout (Revolut-style structure, existing tokens) — 2026-11-14 */
+.page-checker .topbar { display:flex; align-items:center; gap:10px; }
+.page-checker .topbar .mark { width:34px; height:34px; border-radius:10px; background:var(--accent); color:#fff; font-weight:800; font-size:19px; display:flex; align-items:center; justify-content:center; }
+.page-checker .topbar .brandline { margin:0; }
+.page-checker .freepill { margin-left:auto; font-size:12.5px; font-weight:700; color:var(--ok); background:var(--okbg); padding:6px 11px; border-radius:999px; }
+.page-checker .steps { display:flex; gap:6px; margin:18px 2px 4px; font-size:12.5px; color:var(--muted); font-weight:600; }
+.page-checker .steps b { color:var(--ink); font-weight:700; }
+.page-checker .verdict { background:var(--card); border:1px solid var(--line); border-radius:22px; padding:24px 22px 22px; margin-top:10px; box-shadow:0 1px 2px rgba(26,35,50,.05), 0 10px 28px rgba(26,35,50,.07); }
+.page-checker .badges { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+.page-checker .badge.found { background:var(--warn); color:#fff; letter-spacing:.3px; }
+.page-checker .badge.found.mid { background:#b45309; }
+.page-checker .badge.strong { background:#e3edff; color:var(--accent-dark); }
+.page-checker .badge.freer { background:var(--okbg); color:var(--ok); }
+.page-checker .bignum { font-size:56px; line-height:1; font-weight:800; letter-spacing:-1.5px; color:var(--ink); }
+.page-checker .bignum small { font-size:20px; font-weight:700; letter-spacing:0; color:var(--muted); margin-left:8px; }
+.page-checker .vtitle { font-size:19px; font-weight:700; margin-top:12px; line-height:1.35; }
+.page-checker .vhazard { color:var(--muted); font-size:15px; line-height:1.55; margin-top:6px; }
+.page-checker .details { background:var(--card); border:1px solid var(--line); border-radius:22px; padding:8px 22px; margin-top:14px; box-shadow:0 1px 2px rgba(26,35,50,.05), 0 10px 28px rgba(26,35,50,.07); }
+.page-checker .drow { display:flex; gap:14px; padding:15px 0; border-bottom:1px solid var(--line); }
+.page-checker .drow:last-child { border-bottom:none; }
+.page-checker .drow .dk { flex:0 0 104px; font-size:12px; font-weight:800; letter-spacing:.6px; color:var(--muted); padding-top:3px; text-transform:uppercase; }
+.page-checker .drow .dv { font-size:15px; line-height:1.55; font-weight:600; }
+.page-checker .drow .dv span { display:block; color:var(--muted); font-weight:500; font-size:13.5px; margin-top:2px; }
+.page-checker .primary { display:block; text-align:center; background:var(--accent); color:#fff; font-size:16.5px; font-weight:700; padding:16px; border-radius:16px; text-decoration:none; margin-top:20px; }
+.page-checker .primary:hover { background:var(--accent-dark); }
+.page-checker .secondarybtn { display:block; text-align:center; background:var(--card); color:var(--ink); border:1px solid var(--line); font-size:15.5px; font-weight:600; padding:15px; border-radius:16px; text-decoration:none; margin-top:10px; }
+.page-checker .freepaid { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-top:22px; }
+.page-checker .freepaid .freepaid-t { font-size:12px; font-weight:800; letter-spacing:.6px; color:var(--muted); text-transform:uppercase; margin-bottom:7px; }
+.page-checker .freepaid p { font-size:13.5px; line-height:1.6; color:#3d4b61; }
